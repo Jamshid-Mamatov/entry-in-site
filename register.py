@@ -29,7 +29,7 @@ def sign_up():
 
 @app.route("/get_signup",methods=["POST"])
 def get_sign_up():
-    content="register"
+    
     r=request.form
     get_email=r.get("email")
     get_username=r.get("username")
@@ -38,10 +38,19 @@ def get_sign_up():
     get_last_name=r.get("last_name")
 
     user=User(email=get_email,username=get_username,password=get_password,first_name=get_first_name,last_name=get_last_name)
+    users=User.query.all()
+    for x in users:
+        if x.email==get_email and x.username==get_username:
+            position="get_signup"
+            content="this username or email busy try again"
+            return render_template("entry.html",position=position,content=content)
 
     db.session.add(user)
     db.session.commit()
-    return "ok"
+    return "successful registered"
+
+
+
 
 
 if __name__=="__main__":
