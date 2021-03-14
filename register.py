@@ -50,6 +50,29 @@ def get_sign_up():
     return "successful registered"
 
 
+@app.route("/login")
+def login():
+    content="entry with login"
+    position="get_login"
+    return render_template("entry.html",content=content,position=position)
+
+@app.route("/get_login",methods=["POST"])
+def get_login():
+    r=request.form
+    get_email=r.get("email")
+    get_username=r.get("username")
+
+
+    users=User.query.all()
+    for x in users:
+        if x.email==get_email and x.username==get_username:
+
+            return "welcome"
+    
+    content="email or username wrong"
+    position="get_login"
+    return render_template("entry.html",content=content,position=position)
+
 
 
 
